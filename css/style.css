@@ -1,0 +1,12 @@
+.user-image {
+    height: 100px;
+    width: 100px;
+}
+
+.table-entry-example {
+    display: none;
+}
+
+th {
+    text-align: left;
+}
