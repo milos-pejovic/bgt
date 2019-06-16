@@ -8,3 +8,4 @@ $response['data'] = $stmt->fetchAll();
 $response['code'] = 200;
 
 echo json_encode($response);
+die();

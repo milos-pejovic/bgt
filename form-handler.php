@@ -1,6 +1,29 @@
 <?php
 
 require_once 'config.php';
+require_once 'DatabaseConnection.php';
+
+function errorResponse($errors) {
+    $response['errors'] = $errors;
+    $response['code'] = 422;
+    echo json_encode($response);
+    die();
+}
+
+$errors = array();
+
+/**
+ * =============================================================================
+ * Form validation
+ * =============================================================================
+ */
+if ( !isset($_POST['first-name']) || $_POST['first-name'] == '') {
+    $errors[] = 'First name is a required field.';
+}
+
+if ( !isset($_POST['last-name']) || $_POST['last-name'] == '') {
+    $errors[] = 'Last name is a required field.';
+}
 
 $firstName = $_POST['first-name'];
 $lastName = $_POST['last-name'];
@@ -8,7 +31,7 @@ $filePath = '';
 
 /**
  * =============================================================================
- * Files
+ * File handling
  * =============================================================================
  */
 if (isset($_FILES['image'])) {
@@ -17,16 +40,19 @@ if (isset($_FILES['image'])) {
         move_uploaded_file($_FILES['image']['tmp_name'], ROOT . $newFileLocation);
         $filePath = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $newFileLocation;
     } else if ($_FILES['image']['error'] == 1) {
-        // file too large
-        error_log('File too large');
-    } else {
-        // TODO error
-    }
-    
+        $errors[] = 'Image too large. Maximum allowed file size is ' . str_replace('M', '', ini_get('upload_max_filesize')) . ' megabyte(s).';
+    } 
 }
 
-require_once 'DatabaseConnection.php';
+if ( count($errors) > 0 ) {
+    errorResponse($errors);
+}
 
+/**
+ * =============================================================================
+ * Insert user into database
+ * =============================================================================
+ */
 $stmt = $pdo->prepare("INSERT INTO `users` (id, first_name, last_name, image_path) VALUES(null, :fname, :lname, :imagePath);");
 
 $stmt->bindParam(':fname', $firstName, PDO::PARAM_STR, 32);
@@ -35,7 +61,4 @@ $stmt->bindParam(':imagePath', $filePath, PDO::PARAM_STR, 256);
 
 $stmt->execute();
 
-
-//error_log(print_r($_POST, 1));
-
-error_log(print_r($_FILES, 1));
+require_once 'allUsers.php';

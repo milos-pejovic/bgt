@@ -10,3 +10,28 @@
 th {
     text-align: left;
 }
+
+.errorsWrapper {
+    display: none;
+}
+
+.errors li{
+    color: #f00;
+}
+
+.no-users {
+    display: none;
+}
+
+.user-data td,
+.user-data th {
+    border: 1px solid black;
+    height: 33.33%;
+}
+
+.user-data .id,
+.user-data .first-name,
+.user-data .last-name {
+    display: inline-block;
+    width: 100px;
+}

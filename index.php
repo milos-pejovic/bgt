@@ -8,19 +8,13 @@
 </head>
 <body>
 <header>
-<?php 
-require_once 'config.php';
 
-
-?>
 </header>
     
 <main>
+    <h2 class="no-users">No users found.</h2>
     
     <table border="1px" cellpadding="5" class="all-users">
- 
-
-        
     </table>
     
     <form class="signup-form">
@@ -44,24 +38,13 @@ require_once 'config.php';
         <input type="submit" value="Submit" />
     </form>
     
-    
-    <div class="table-entry-example">
-        <tr class="user">
-            <td><img class="user-image" src="###image-path###" /></td>
-            <td>
-                <table cellpadding="5">
-                    <tr>
-                        <th>Name:</th>
-                        <td>###first-name###</td>
-                    </tr>
-                    <tr>
-                        <th>Surname:</th>
-                        <td>###last-name###</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+    <div class="errorsWrapper">
+        <ul class="errors">
+        
+        </ul>
     </div>
+    
+    <button class="dw">Download CSV list of users.</button>
     
 </main>    
     
